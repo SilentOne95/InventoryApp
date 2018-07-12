@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- General -->
+    <dimen name="activity_margin">16dp</dimen>
+
+    <!-- activity_catalog -->
+    <dimen name="margin_button">16dp</dimen>
+
+</resources>

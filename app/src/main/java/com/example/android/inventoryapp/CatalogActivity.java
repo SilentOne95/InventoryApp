@@ -15,6 +15,8 @@ import android.view.View;
 import com.example.android.inventoryapp.data.InventoryDbHelper;
 import com.example.android.inventoryapp.data.ProductContract.ProductEntry;
 
+import org.w3c.dom.Text;
+
 public class CatalogActivity extends AppCompatActivity {
 
     public static final String LOG_TAG = CatalogActivity.class.getSimpleName();
@@ -55,9 +57,24 @@ public class CatalogActivity extends AppCompatActivity {
         // Create and/or open a database to read from it
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
-        // Perform this raw SQL query "SELECT * FROM shoes"
-        // to get a Cursor that contains all rows from the shoes table.
-        Cursor cursor = db.rawQuery("SELECT * FROM " + ProductEntry.TABLE_NAME, null);
+        String[] projection = {
+                ProductEntry.COLUMN_SHOES_BRAND,
+                ProductEntry.COLUMN_SHOES_TYPE,
+                ProductEntry.COLUMN_SHOES_PRICE,
+                ProductEntry.COLUMN_SHOES_QUANTITY,
+                ProductEntry.COLUMN_SHOES_SUPPLIER_NAME,
+                ProductEntry.COLUMN_SHOES_SUPPLIER_PHONE_NUMBER
+        };
+
+        Cursor cursor = db.query(
+                ProductEntry.TABLE_NAME,    // The table to query.
+                projection,                 // The columns to return.
+                null,               // The columns for the WHERE clause.
+                null,                  // The values for the WHERE clause.
+                null,                  // Don't group the rows.
+                null,                  // Don't filter by row groups.
+                null);                   // The sort order.
+
         try {
             // Display the number of rows in the Cursor, which reflects the number of rows in the
             // shoes table in the database.

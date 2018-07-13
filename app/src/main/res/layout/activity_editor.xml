@@ -1,50 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
+    android:orientation="vertical"
+    android:padding="@dimen/common_margin_and_padding"
     tools:context=".EditorActivity">
 
-    <TextView
-        android:id="@+id/category_overview"
-        android:layout_width="wrap_content"
+    <!-- Overview container - contains fields: Product Name and Type -->
+    <LinearLayout
+        android:id="@+id/container_overview"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/category_overview"
-        android:textColor="@color/black"
-        android:paddingTop="16dp"
-        android:textAppearance="?android:textAppearanceSmall"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:orientation="horizontal">
 
-    <!-- Vertical line used for navigation -->
-    <android.support.constraint.Guideline
-        android:id="@+id/vertical_guideline"
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/label_overview"
+            android:text="@string/category_overview"
+            style="@style/CategoryStyle"/>
+
+        <LinearLayout
+            style="@style/InnerLinearVerticalContainer">
+
+            <EditText
+                android:id="@+id/edit_product_name"
+                android:hint="@string/hint_product_name"
+                android:inputType="textCapWords"
+                style="@style/EditTextFieldStyle"/>
+
+            <EditText
+                android:id="@+id/edit_product_type"
+                android:hint="@string/hint_product_type"
+                android:inputType="textCapWords"
+                style="@style/EditTextFieldStyle"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Price container -->
+    <LinearLayout
+        android:id="@+id/container_price"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.35" />
+        android:orientation="horizontal">
 
-    <EditText
-        android:id="@+id/hint_product_name"
-        android:layout_width="0dp"
+        <TextView
+            android:id="@+id/label_price"
+            android:text="@string/category_price"
+            style="@style/CategoryStyle" />
+
+        <RelativeLayout
+            style="@style/InnerRelativeContainer">
+
+            <EditText
+                android:id="@+id/edit_product_price"
+                android:hint="@string/hint_product_price"
+                android:inputType="number"
+                style="@style/EditTextFieldStyle" />
+
+            <TextView
+                android:id="@+id/label_price_units"
+                android:text="@string/unit_product_price"
+                style="@style/EditorUnitsStyle"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <!-- Quantity container -->
+    <LinearLayout
+        android:id="@+id/container_quantity"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/hint_product_name"
-        android:inputType="textCapWords"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:orientation="horizontal">
 
-    <EditText
-        android:id="@+id/hint_product_type"
-        android:layout_width="0dp"
+        <TextView
+            android:id="@+id/label_quantity"
+            android:text="@string/category_quantity"
+            style="@style/CategoryStyle" />
+
+        <LinearLayout
+            style="@style/InnerLinearHorizontalContainer">
+
+            <EditText
+                android:id="@+id/edit_product_quantity"
+                android:hint="@string/hint_product_quantity"
+                android:inputType="number"
+                style="@style/EditTextFieldStyle"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Supplier Name container -->
+    <LinearLayout
+        android:id="@+id/container_supplier_name"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/hint_product_type"
-        android:inputType="textCapWords"
-        app:layout_constraintTop_toBottomOf="@id/hint_product_name"
-        app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:orientation="horizontal">
 
-</android.support.constraint.ConstraintLayout>
+        <TextView
+            android:id="@+id/label_supplier_name"
+            android:text="@string/category_supplier_name"
+            style="@style/CategoryStyle" />
+
+        <LinearLayout
+            style="@style/InnerLinearHorizontalContainer">
+
+            <EditText
+                android:id="@+id/edit_product_supplier_name"
+                android:hint="@string/hint_product_supplier_name"
+                android:inputType="textCapWords"
+                style="@style/EditTextFieldStyle"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Supplier Name container -->
+    <LinearLayout
+        android:id="@+id/container_supplier_phone_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/label_supplier_phone_number"
+            android:text="@string/category_supplier_phone_number"
+            style="@style/CategoryStyle" />
+
+        <LinearLayout
+            style="@style/InnerLinearHorizontalContainer">
+
+            <EditText
+                android:id="@+id/edit_product_supplier_phone_number"
+                android:hint="@string/hint_product_supplier_phone_number"
+                android:inputType="phone"
+                style="@style/EditTextFieldStyle"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

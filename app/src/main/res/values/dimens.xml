@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- General -->
+    <dimen name="common_margin_and_padding">16dp</dimen>
+    <dimen name="zero">0dp</dimen>
+
+    <!-- activity_editor -->
+    <dimen name="padding_start">4dp</dimen>
+
+</resources>

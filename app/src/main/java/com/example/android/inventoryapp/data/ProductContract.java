@@ -1,7 +1,6 @@
 package com.example.android.inventoryapp.data;
 
 import android.provider.BaseColumns;
-import android.widget.ProgressBar;
 
 /**
  * API Contract for the InventoryApp.

@@ -15,8 +15,6 @@ import android.view.View;
 import com.example.android.inventoryapp.data.InventoryDbHelper;
 import com.example.android.inventoryapp.data.ProductContract.ProductEntry;
 
-import org.w3c.dom.Text;
-
 public class CatalogActivity extends AppCompatActivity {
 
     public static final String LOG_TAG = CatalogActivity.class.getSimpleName();

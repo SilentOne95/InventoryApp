@@ -1,26 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--<RelativeLayout-->
-    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--xmlns:tools="http://schemas.android.com/tools"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--tools:context=".CatalogActivity">-->
-
-    <!--<TextView-->
-        <!--android:id="@+id/text_view_shoes"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:padding="@dimen/activity_margin" />-->
-
-    <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:id="@+id/fab"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_margin="@dimen/margin_button" />-->
-
-<!--</RelativeLayout>-->
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -28,12 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CatalogActivity">
-
-    <TextView
-        android:id="@+id/text_view_shoes"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="@dimen/common_margin_and_padding"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

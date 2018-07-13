@@ -24,8 +24,8 @@
             style="@style/InnerLinearVerticalContainer">
 
             <EditText
-                android:id="@+id/edit_product_name"
-                android:hint="@string/hint_product_name"
+                android:id="@+id/edit_product_brand"
+                android:hint="@string/hint_product_brand"
                 android:inputType="textCapWords"
                 style="@style/EditTextFieldStyle"/>
 

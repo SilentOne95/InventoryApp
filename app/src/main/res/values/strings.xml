@@ -16,7 +16,7 @@
     <string name="category_supplier_name">Supplier Name</string>
     <string name="category_supplier_phone_number">Supplier Phone Number</string>
 
-    <string name="hint_product_name">Product Name</string>
+    <string name="hint_product_brand">Brand</string>
     <string name="hint_product_type">Type</string>
     <string name="hint_product_price">Price</string>
     <string name="hint_product_quantity">Quantity</string>

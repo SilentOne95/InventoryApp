@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.example.android.inventoryapp.data.InventoryDbHelper;
 import com.example.android.inventoryapp.data.ProductContract.ProductEntry;
@@ -55,7 +56,10 @@ public class CatalogActivity extends AppCompatActivity {
         // Create and/or open a database to read from it
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
+        // Define a projection that specifies which columns from the database
+        // you will actually use after this query.
         String[] projection = {
+                ProductEntry._ID,
                 ProductEntry.COLUMN_SHOES_BRAND,
                 ProductEntry.COLUMN_SHOES_TYPE,
                 ProductEntry.COLUMN_SHOES_PRICE,
@@ -64,6 +68,7 @@ public class CatalogActivity extends AppCompatActivity {
                 ProductEntry.COLUMN_SHOES_SUPPLIER_PHONE_NUMBER
         };
 
+        // Perform a query.
         Cursor cursor = db.query(
                 ProductEntry.TABLE_NAME,    // The table to query.
                 projection,                 // The columns to return.
@@ -73,10 +78,49 @@ public class CatalogActivity extends AppCompatActivity {
                 null,                  // Don't filter by row groups.
                 null);                   // The sort order.
 
+        TextView displayView = findViewById(R.id.text_view_product);
+
         try {
-            // Display the number of rows in the Cursor, which reflects the number of rows in the
-            // shoes table in the database.
-            Log.i(LOG_TAG, "Number of rows in inventory database table: " + cursor.getCount());
+            // Create a header which looks like this:
+            // _i | brand | type | price | quantity | (supplier) name | phone
+            displayView.setText("This table contains " + cursor.getCount() + " rows.\n\n");
+            displayView.append(ProductEntry._ID + " | "
+                    + ProductEntry.COLUMN_SHOES_BRAND + " | "
+                    + ProductEntry.COLUMN_SHOES_TYPE + " | "
+                    + ProductEntry.COLUMN_SHOES_PRICE + " | "
+                    + ProductEntry.COLUMN_SHOES_QUANTITY + " | "
+                    + ProductEntry.COLUMN_SHOES_SUPPLIER_NAME + " | "
+                    + ProductEntry.COLUMN_SHOES_SUPPLIER_PHONE_NUMBER);
+
+            // Figure out the index of each column.
+            int idColumnIndex = cursor.getColumnIndex(ProductEntry._ID);
+            int brandColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_SHOES_BRAND);
+            int typeColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_SHOES_TYPE);
+            int priceColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_SHOES_PRICE);
+            int quantityColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_SHOES_QUANTITY);
+            int nameColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_SHOES_SUPPLIER_NAME);
+            int phoneColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_SHOES_SUPPLIER_PHONE_NUMBER);
+
+            while (cursor.moveToNext()) {
+                // Use that index to extract the String or Int value of the word
+                // at the current row the cursor is on.
+                int currentId = cursor.getInt(idColumnIndex);
+                String currentBrand = cursor.getString(brandColumnIndex);
+                String currentType = cursor.getString(typeColumnIndex);
+                int currentPrice = cursor.getInt(priceColumnIndex);
+                int currentQuantity = cursor.getInt(quantityColumnIndex);
+                String currentName = cursor.getString(nameColumnIndex);
+                int currentPhone = cursor.getInt(phoneColumnIndex);
+
+                // Display the values to the user in the TextView.
+                displayView.append(("\n" + currentId + " | "
+                        + currentBrand + " | "
+                        + currentType + " | "
+                        + currentPrice + " | "
+                        + currentQuantity + " | "
+                        + currentName + " | "
+                        + currentPhone));
+            }
         } finally {
             // Always close the cursor when you're done reading from it. This releases all its
             // resources and makes it invalid.

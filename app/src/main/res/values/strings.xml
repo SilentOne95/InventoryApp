@@ -33,4 +33,8 @@
     <string name="editor_insert_product_successful">Product saved</string>
     <string name="editor_update_product_failed">Error with updating pet</string>
     <string name="editor_update_product_successful">Product updated</string>
+
+    <string name="unsaved_changes_dialog_msg">Error with updating product</string>
+    <string name="discard">Discard</string>
+    <string name="keep_editing">Keep editing</string>
 </resources>

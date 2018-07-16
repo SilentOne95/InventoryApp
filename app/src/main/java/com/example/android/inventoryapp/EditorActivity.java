@@ -2,6 +2,7 @@ package com.example.android.inventoryapp;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -57,12 +58,6 @@ public class EditorActivity extends AppCompatActivity {
         String supplierPhoneString = mSupplierPhoneEditText.getText().toString().trim();
         int phone = Integer.parseInt(supplierPhoneString);
 
-        // Create database helper
-        InventoryDbHelper mDbHelper = new InventoryDbHelper(this);
-
-        // Gets the database in write mode.
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
-
         // Create a ContentValues object.
         ContentValues values = new ContentValues();
         values.put(ProductEntry.COLUMN_SHOES_BRAND, brandString);
@@ -72,16 +67,16 @@ public class EditorActivity extends AppCompatActivity {
         values.put(ProductEntry.COLUMN_SHOES_SUPPLIER_NAME, supplierNameString);
         values.put(ProductEntry.COLUMN_SHOES_SUPPLIER_PHONE_NUMBER, phone);
 
-        // Insert a new row for product in the database, returning the ID of that new row.
-        long newRowId = db.insert(ProductEntry.TABLE_NAME, null, values);
-
-        Log.i(LOG_TAG, "Added new row with ID: " + newRowId);
+        // Insert a new product into the provider, returning the content URI for the new product.
+        Uri newUri = getContentResolver().insert(ProductEntry.CONTENT_URI, values);
 
         // Show toast message depending on whether or not the insertion was successful.
-        if (newRowId == -1) {
-            Toast.makeText(this, "Error with saving product.", Toast.LENGTH_LONG).show();
+        if (newUri == null) {
+            Toast.makeText(this, getString(R.string.editor_insert_product_failed),
+                    Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, "Product saved successfully!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.editor_insert_product_successful),
+                    Toast.LENGTH_SHORT).show();
         }
     }
 

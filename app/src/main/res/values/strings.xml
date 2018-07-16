@@ -24,4 +24,7 @@
     <string name="hint_product_supplier_phone_number">Supplier Phone Number</string>
 
     <string name="unit_product_price">PLN</string>
+
+    <string name="editor_insert_product_failed">Product saved</string>
+    <string name="editor_insert_product_successful">Error with saving product</string>
 </resources>

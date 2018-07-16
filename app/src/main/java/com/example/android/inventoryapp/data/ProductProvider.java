@@ -93,6 +93,38 @@ public class ProductProvider extends ContentProvider {
     }
 
     private Uri insertProduct(Uri uri, ContentValues values) {
+        // Check if the brand name, type, supplier name and his phone is not null.
+        // Also check if price and quantity are grater or equal to 0.
+        String brand = values.getAsString(ProductEntry.COLUMN_SHOES_BRAND);
+        if (brand == null) {
+            throw new IllegalArgumentException("Product requires a brand name");
+        }
+
+        String type = values.getAsString(ProductEntry.COLUMN_SHOES_BRAND);
+        if (type == null) {
+            throw new IllegalArgumentException("Product requires a type");
+        }
+
+        Integer price = values.getAsInteger(ProductEntry.COLUMN_SHOES_PRICE);
+        if (price != null && price < 0) {
+            throw new IllegalArgumentException("Product requires a valid price");
+        }
+
+        Integer quantity = values.getAsInteger(ProductEntry.COLUMN_SHOES_PRICE);
+        if (quantity != null && quantity < 0) {
+            throw new IllegalArgumentException("Product requires a valid quantity");
+        }
+
+        String supplierName = values.getAsString(ProductEntry.COLUMN_SHOES_SUPPLIER_NAME);
+        if (supplierName == null) {
+            throw new IllegalArgumentException("Product requires a supplier name");
+        }
+
+        Integer supplierPhone = values.getAsInteger(ProductEntry.COLUMN_SHOES_SUPPLIER_PHONE_NUMBER);
+        if (supplierPhone != null && supplierPhone < 0) {
+            throw new IllegalArgumentException("Product requires a supplier phone number");
+        }
+
         // Get writeable database.
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
 

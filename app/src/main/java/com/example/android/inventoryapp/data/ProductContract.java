@@ -1,5 +1,6 @@
 package com.example.android.inventoryapp.data;
 
+import android.net.Uri;
 import android.provider.BaseColumns;
 
 /**
@@ -11,11 +12,18 @@ public final class ProductContract {
     // give it an empty constructor.
     private ProductContract() {}
 
+    public static final String CONTENT_AUTHORITY = "com.example.android.inventoryapp";
+    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
+    public static final String PATH_INVENTORY = "inventoryapp";
+
     /**
      * Inner class that defines constant values for the pets database table.
      * Each entry in the table represents a single pet.
      */
     public static final class ProductEntry implements BaseColumns {
+
+        /** The content URI to access the inventory data in the provider */
+        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_INVENTORY);
 
         /** Name of database table for inventory (shoes). */
         public final static String TABLE_NAME = "shoes";

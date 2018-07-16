@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.android.inventoryapp.data.InventoryDbHelper;
+import com.example.android.inventoryapp.data.ProductContract;
 import com.example.android.inventoryapp.data.ProductContract.ProductEntry;
 
 public class CatalogActivity extends AppCompatActivity {
@@ -53,9 +54,6 @@ public class CatalogActivity extends AppCompatActivity {
      * the pets database.
      */
     private void displayDatabaseInfo() {
-        // Create and/or open a database to read from it
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
-
         // Define a projection that specifies which columns from the database
         // you will actually use after this query.
         String[] projection = {
@@ -68,15 +66,13 @@ public class CatalogActivity extends AppCompatActivity {
                 ProductEntry.COLUMN_SHOES_SUPPLIER_PHONE_NUMBER
         };
 
-        // Perform a query.
-        Cursor cursor = db.query(
-                ProductEntry.TABLE_NAME,    // The table to query.
-                projection,                 // The columns to return.
-                null,               // The columns for the WHERE clause.
-                null,                  // The values for the WHERE clause.
-                null,                  // Don't group the rows.
-                null,                  // Don't filter by row groups.
-                null);                   // The sort order.
+        // Perform a query on the provider using the ContentResolver.
+        Cursor cursor = getContentResolver().query(
+                ProductEntry.CONTENT_URI,
+                projection,
+                null,
+                null,
+                null);
 
         TextView displayView = findViewById(R.id.text_view_product);
 

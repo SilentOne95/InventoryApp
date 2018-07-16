@@ -5,6 +5,9 @@
     <string name="action_insert_dummy_data">Insert Dummy Data</string>
     <string name="action_delete_all_entries">Delete All Shoes</string>
 
+    <string name="empty_view_title_text">It\'s a bit empty here&#8230;</string>
+    <string name="empty_view_subtitle_text">Get started by adding products</string>
+
     <!-- activity_editor -->
     <string name="editor_activity_title_new_product">Add a Product</string>
     <string name="action_save">Save</string>

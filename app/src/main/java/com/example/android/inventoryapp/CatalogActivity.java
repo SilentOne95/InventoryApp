@@ -3,26 +3,18 @@ package com.example.android.inventoryapp;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.ListView;
 
-import com.example.android.inventoryapp.data.InventoryDbHelper;
-import com.example.android.inventoryapp.data.ProductContract;
 import com.example.android.inventoryapp.data.ProductContract.ProductEntry;
 
 public class CatalogActivity extends AppCompatActivity {
-
-    public static final String LOG_TAG = CatalogActivity.class.getSimpleName();
-
-    private InventoryDbHelper mDbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +31,12 @@ public class CatalogActivity extends AppCompatActivity {
             }
         });
 
-        // To access our database, we instantiate our subclass of SQLiteOpenHelper
-        // and pass the context, which is the current activity.
-        mDbHelper = new InventoryDbHelper(this);
+        // Find the ListView which will be populated with the products data.
+        ListView productListView = findViewById(R.id.list);
+
+        // Find and set empty view on the ListView, so that it only shows when the list has 0 items.
+        View emptyView = findViewById(R.id.empty_view);
+        productListView.setEmptyView(emptyView);
     }
 
     @Override
@@ -75,54 +70,13 @@ public class CatalogActivity extends AppCompatActivity {
                 null,
                 null);
 
-        TextView displayView = findViewById(R.id.text_view_product);
+        ListView productListView = findViewById(R.id.list);
 
-        try {
-            // Create a header which looks like this:
-            // _i | brand | type | price | quantity | (supplier) name | phone
-            displayView.setText("This table contains " + cursor.getCount() + " rows.\n\n");
-            displayView.append(ProductEntry._ID + " | "
-                    + ProductEntry.COLUMN_SHOES_BRAND + " | "
-                    + ProductEntry.COLUMN_SHOES_TYPE + " | "
-                    + ProductEntry.COLUMN_SHOES_PRICE + " | "
-                    + ProductEntry.COLUMN_SHOES_QUANTITY + " | "
-                    + ProductEntry.COLUMN_SHOES_SUPPLIER_NAME + " | "
-                    + ProductEntry.COLUMN_SHOES_SUPPLIER_PHONE_NUMBER);
+        // Setup an Adapter to create a list item for each row of product data in the Cursor.
+        ProductCursorAdapter adapter = new ProductCursorAdapter(this, cursor);
 
-            // Figure out the index of each column.
-            int idColumnIndex = cursor.getColumnIndex(ProductEntry._ID);
-            int brandColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_SHOES_BRAND);
-            int typeColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_SHOES_TYPE);
-            int priceColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_SHOES_PRICE);
-            int quantityColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_SHOES_QUANTITY);
-            int nameColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_SHOES_SUPPLIER_NAME);
-            int phoneColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_SHOES_SUPPLIER_PHONE_NUMBER);
-
-            while (cursor.moveToNext()) {
-                // Use that index to extract the String or Int value of the word
-                // at the current row the cursor is on.
-                int currentId = cursor.getInt(idColumnIndex);
-                String currentBrand = cursor.getString(brandColumnIndex);
-                String currentType = cursor.getString(typeColumnIndex);
-                int currentPrice = cursor.getInt(priceColumnIndex);
-                int currentQuantity = cursor.getInt(quantityColumnIndex);
-                String currentName = cursor.getString(nameColumnIndex);
-                int currentPhone = cursor.getInt(phoneColumnIndex);
-
-                // Display the values to the user in the TextView.
-                displayView.append(("\n" + currentId + " | "
-                        + currentBrand + " | "
-                        + currentType + " | "
-                        + currentPrice + " | "
-                        + currentQuantity + " | "
-                        + currentName + " | "
-                        + currentPhone));
-            }
-        } finally {
-            // Always close the cursor when you're done reading from it. This releases all its
-            // resources and makes it invalid.
-            cursor.close();
-        }
+        // Attach the adapter to the ListView.
+        productListView.setAdapter(adapter);
     }
 
     /**

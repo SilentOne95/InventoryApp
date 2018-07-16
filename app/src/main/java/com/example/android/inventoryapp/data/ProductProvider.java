@@ -145,7 +145,85 @@ public class ProductProvider extends ContentProvider {
      */
     @Override
     public int update(Uri uri, ContentValues contentValues, String selection, String[] selectionArgs) {
-        return 0;
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            case SHOES:
+                return updateProduct(uri, contentValues, selection, selectionArgs);
+            case SHOES_ID:
+                selection = ProductEntry._ID + "=?";
+                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                return updateProduct(uri, contentValues, selection, selectionArgs);
+            default:
+                throw new IllegalArgumentException("Update is not supported for " + uri);
+        }
+    }
+
+    private int updateProduct(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+        // If the {@link ProductEntry#COLUMN_SHOES_BRAND} key is present,
+        // check that the name value is not null.
+        if (values.containsKey(ProductEntry.COLUMN_SHOES_BRAND)) {
+            String brand = values.getAsString(ProductEntry.COLUMN_SHOES_BRAND);
+            if (brand == null) {
+                throw new IllegalArgumentException("Product requires a brand name");
+            }
+        }
+
+        // If the {@link ProductEntry#COLUMN_SHOES_TYPE} key is present,
+        // check that the name value is not null.
+        if (values.containsKey(ProductEntry.COLUMN_SHOES_TYPE)) {
+            String type = values.getAsString(ProductEntry.COLUMN_SHOES_TYPE);
+            if (type == null) {
+                throw new IllegalArgumentException("Product requires a type");
+            }
+        }
+
+        // If the {@link ProductEntry#COLUMN_SHOES_PRICE} key is present,
+        // check that the name value is not null.
+        if (values.containsKey(ProductEntry.COLUMN_SHOES_PRICE)) {
+            Integer price = values.getAsInteger(ProductEntry.COLUMN_SHOES_PRICE);
+            if (price != null && price < 0) {
+                throw new IllegalArgumentException("Product requires a valid price");
+            }
+        }
+
+        // If the {@link ProductEntry#COLUMN_SHOES_QUANTITY} key is present,
+        // check that the name value is not null.
+        if (values.containsKey(ProductEntry.COLUMN_SHOES_QUANTITY)) {
+            Integer quantity = values.getAsInteger(ProductEntry.COLUMN_SHOES_QUANTITY);
+            if (quantity != null && quantity < 0) {
+                throw new IllegalArgumentException("Product requires a valid price");
+            }
+        }
+
+        // If the {@link ProductEntry#COLUMN_SHOES_SUPPLIER_NAME} key is present,
+        // check that the name value is not null.
+        if (values.containsKey(ProductEntry.COLUMN_SHOES_SUPPLIER_NAME)) {
+            String supplierName = values.getAsString(ProductEntry.COLUMN_SHOES_SUPPLIER_NAME);
+            if (supplierName == null) {
+                throw new IllegalArgumentException("Product requires a name");
+            }
+        }
+
+        // If the {@link ProductEntry#COLUMN_SHOES_SUPPLIER_PHONE_NUMBER} key is present,
+        // check that the name value is not null.
+        if (values.containsKey(ProductEntry.COLUMN_SHOES_SUPPLIER_PHONE_NUMBER)) {
+            Integer supplierPhone = values.getAsInteger(ProductEntry.COLUMN_SHOES_SUPPLIER_PHONE_NUMBER);
+            if (supplierPhone != null && supplierPhone < 0) {
+                throw new IllegalArgumentException("Product requires a valid phone number");
+            }
+        }
+
+        // If 1 or more rows were updated, then notify all listeners that the data at the
+        // given URI has changed.
+        if (values.size() != 0) {
+            return 0;
+        }
+
+        // Otherwise, get writeable database to update the data
+        SQLiteDatabase database = mDbHelper.getWritableDatabase();
+
+        // Returns the number of database rows affected by the update statement
+        return database.update(ProductEntry.TABLE_NAME, values, selection, selectionArgs);
     }
 
     /**

@@ -10,6 +10,7 @@
 
     <!-- activity_editor -->
     <string name="editor_activity_title_new_product">Add a Product</string>
+    <string name="editor_activity_title_edit_product">Edit Product</string>
     <string name="action_save">Save</string>
     <string name="action_delete">Delete</string>
 

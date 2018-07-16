@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -87,6 +88,14 @@ public class CatalogActivity extends AppCompatActivity implements
         Uri newUri = getContentResolver().insert(ProductEntry.CONTENT_URI, values);
     }
 
+    /**
+     * Helper method to delete all products in the database.
+     */
+    private void deleteAllProducts(){
+        int rowsDeleted = getContentResolver().delete(ProductEntry.CONTENT_URI, null, null);
+        Log.v("CatalogActivity", rowsDeleted + " rows deleted from shoes database.");
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // This adds menu items to the app bar.
@@ -101,6 +110,7 @@ public class CatalogActivity extends AppCompatActivity implements
                 insertShoes();
                 return true;
             case R.id.action_delete_all_entries:
+                deleteAllProducts();
                 return true;
         }
 

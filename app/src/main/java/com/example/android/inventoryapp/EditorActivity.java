@@ -68,6 +68,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         // If the intent DOES NOT contain a product content URI, then we know that we are creating new one.
         if (mCurrentProductUri == null) {
             setTitle(getString(R.string.editor_activity_title_new_product));
+
+            invalidateOptionsMenu();
         } else {
             setTitle(getString(R.string.editor_activity_title_edit_product));
 
@@ -183,6 +185,22 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         return true;
     }
 
+    /**
+     * This method is called after invalidateOptionsMenu(), so that the menu can be
+     * updated (some menu items can be hidden or made invisible).
+     */
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        // If this iss a new product, hide the "Delete" menu item.
+        if (mCurrentProductUri == null) {
+            MenuItem menuItem = menu.findItem(R.id.action_delete);
+            menuItem.setVisible(false);
+        }
+
+        return true;
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -191,6 +209,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 finish();
                 return true;
             case R.id.action_delete:
+                showDeleteConfirmationDialog();
                 return true;
             case android.R.id.home:
                 // If the product hasn't changed, continue with navigating up to parent activity
@@ -335,5 +354,52 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         // Create and show the AlertDialog.
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    /**
+     * Prompt the user to confirm that they want to delete this product.
+     */
+    private void showDeleteConfirmationDialog() {
+        // Create an AlertDialog.Builder and set the message, and click listeners
+        // for the positive and negative buttons on the dialog.
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.delete_dialog_msg);
+        builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                deleteProduct();
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    /**
+     * Perform the deletion of the product in the database.
+     */
+    private void deleteProduct() {
+        // Only perform the delete if this an existing product.
+        if (mCurrentProductUri != null) {
+            int rowsDeleted = getContentResolver().delete(mCurrentProductUri, null, null);
+
+            if (rowsDeleted == 0) {
+                Toast.makeText(this, getString(R.string.editor_delete_product_failed),
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, getString(R.string.editor_delete_product_successful),
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        finish();
     }
 }

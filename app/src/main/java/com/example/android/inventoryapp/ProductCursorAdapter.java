@@ -2,6 +2,7 @@ package com.example.android.inventoryapp;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,6 +65,11 @@ public class ProductCursorAdapter extends CursorAdapter {
         // Read the product attributes from the Cursor for the current product.
         String shoesBrand = cursor.getString(brandColumnIndex);
         String shoesType = cursor.getString(typeColumnIndex);
+
+        // If the product type is empty string or null, then use some default text.
+        if (TextUtils.isEmpty(shoesType)) {
+            shoesType = context.getString(R.string.unknown_type);
+        }
 
         // Update the TextViews with the attributes for the current product.
         brandTextView.setText(shoesBrand);

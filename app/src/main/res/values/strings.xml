@@ -8,6 +8,8 @@
     <string name="empty_view_title_text">It\'s a bit empty here&#8230;</string>
     <string name="empty_view_subtitle_text">Get started by adding products</string>
 
+    <string name="unknown_type">Unknown type</string>
+
     <!-- activity_editor -->
     <string name="editor_activity_title_new_product">Add a Product</string>
     <string name="editor_activity_title_edit_product">Edit Product</string>
@@ -37,4 +39,10 @@
     <string name="unsaved_changes_dialog_msg">Error with updating product</string>
     <string name="discard">Discard</string>
     <string name="keep_editing">Keep editing</string>
+
+    <string name="editor_delete_product_successful">Product deleted</string>
+    <string name="editor_delete_product_failed">Error with deleting product</string>
+    <string name="delete_dialog_msg">Delete this product?</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
 </resources>

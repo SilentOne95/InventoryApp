@@ -19,7 +19,8 @@ import android.widget.ListView;
 
 import com.example.android.inventoryapp.data.ProductContract.ProductEntry;
 
-public class CatalogActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class CatalogActivity extends AppCompatActivity implements
+        LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int PRODUCT_LOADER = 0;
 

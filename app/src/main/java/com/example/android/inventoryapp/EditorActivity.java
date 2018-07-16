@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -65,39 +66,81 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     }
 
     /**
-     * Get user input from editor and save product into database.
+     * Get user input from editor and save new product into database.
      */
-    private void insertShoes() {
+    private void saveProduct() {
         // Read from input fields.
         String brandString = mBrandEditText.getText().toString().trim();
         String typeString = mTypeEditText.getText().toString().trim();
         String priceString = mPriceEditText.getText().toString().trim();
-        int price = Integer.parseInt(priceString);
         String quantityString = mQuantityEditText.getText().toString().trim();
-        int quantity = Integer.parseInt(quantityString);
         String supplierNameString = mSupplierNameEditText.getText().toString().trim();
         String supplierPhoneString = mSupplierPhoneEditText.getText().toString().trim();
-        int phone = Integer.parseInt(supplierPhoneString);
+
+
+        // Check if this is supposed to be a new product and check if all the fields are blank.
+        if (mCurrentProductUri == null &&
+                TextUtils.isEmpty(brandString) && TextUtils.isEmpty(typeString) &&
+                TextUtils.isEmpty(priceString) && TextUtils.isEmpty(quantityString) &&
+                TextUtils.isEmpty(supplierNameString) && TextUtils.isEmpty(supplierPhoneString)) {
+            // Since no fields were modified, we can return early without creating a new product.
+            // No need to create ContentValues and to do any ContentProvider operations.
+
+            return;
+        }
 
         // Create a ContentValues object.
         ContentValues values = new ContentValues();
         values.put(ProductEntry.COLUMN_SHOES_BRAND, brandString);
         values.put(ProductEntry.COLUMN_SHOES_TYPE, typeString);
+        values.put(ProductEntry.COLUMN_SHOES_SUPPLIER_NAME, supplierNameString);
+
+        // If the price / quantity / phone number is not provided by the user, don't try to parse
+        // the string into an integer value. Use provided here provided numbers by default.
+        int price = 0;
+        if (!TextUtils.isEmpty(priceString)) {
+            price = Integer.parseInt(priceString);
+        }
+
+        int quantity = 0;
+        if (!TextUtils.isEmpty(quantityString)) {
+            quantity = Integer.parseInt(quantityString);
+        }
+
+        int phone = 0;
+        if (!TextUtils.isEmpty(supplierPhoneString)) {
+            phone = Integer.parseInt(supplierPhoneString);
+        }
+
         values.put(ProductEntry.COLUMN_SHOES_PRICE, price);
         values.put(ProductEntry.COLUMN_SHOES_QUANTITY, quantity);
-        values.put(ProductEntry.COLUMN_SHOES_SUPPLIER_NAME, supplierNameString);
         values.put(ProductEntry.COLUMN_SHOES_SUPPLIER_PHONE_NUMBER, phone);
 
-        // Insert a new product into the provider, returning the content URI for the new product.
-        Uri newUri = getContentResolver().insert(ProductEntry.CONTENT_URI, values);
+        // Determine if this is a new or existing product by checking if mCurrentPetUri is null or not.
+        if (mCurrentProductUri == null) {
+            // Insert a new product into the provider, returning the content URI for the new product.
+            Uri newUri = getContentResolver().insert(ProductEntry.CONTENT_URI, values);
 
-        // Show toast message depending on whether or not the insertion was successful.
-        if (newUri == null) {
-            Toast.makeText(this, getString(R.string.editor_insert_product_failed),
-                    Toast.LENGTH_SHORT).show();
+            // Show toast message depending on whether or not the insertion was successful.
+            if (newUri == null) {
+                Toast.makeText(this, getString(R.string.editor_insert_product_failed),
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, getString(R.string.editor_insert_product_successful),
+                        Toast.LENGTH_SHORT).show();
+            }
         } else {
-            Toast.makeText(this, getString(R.string.editor_insert_product_successful),
-                    Toast.LENGTH_SHORT).show();
+            // If it's a existing product, update its values.
+            int rowsAffected = getContentResolver().update(mCurrentProductUri, values, null, null);
+
+            // Show toast message depending whether or not the update was successful.
+            if (rowsAffected == 0) {
+                Toast.makeText(this, getString(R.string.editor_update_product_failed),
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, getString(R.string.editor_update_product_successful),
+                        Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -112,7 +155,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_save:
-                insertShoes();
+                saveProduct();
                 finish();
                 return true;
             case R.id.action_delete:

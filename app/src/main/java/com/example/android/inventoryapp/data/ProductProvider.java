@@ -221,7 +221,7 @@ public class ProductProvider extends ContentProvider {
 
         // If 1 or more rows were updated, then notify all listeners that the data at the
         // given URI has changed.
-        if (values.size() != 0) {
+        if (values.size() == 0) {
             return 0;
         }
 

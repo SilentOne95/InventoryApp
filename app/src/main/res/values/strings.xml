@@ -29,6 +29,8 @@
 
     <string name="unit_product_price">PLN</string>
 
-    <string name="editor_insert_product_failed">Product saved</string>
-    <string name="editor_insert_product_successful">Error with saving product</string>
+    <string name="editor_insert_product_failed">Error with saving product</string>
+    <string name="editor_insert_product_successful">Product saved</string>
+    <string name="editor_update_product_failed">Error with updating pet</string>
+    <string name="editor_update_product_successful">Product updated</string>
 </resources>

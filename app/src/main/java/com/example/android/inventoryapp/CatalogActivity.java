@@ -1,7 +1,10 @@
 package com.example.android.inventoryapp;
 
+import android.app.LoaderManager;
 import android.content.ContentValues;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
@@ -14,7 +17,11 @@ import android.widget.ListView;
 
 import com.example.android.inventoryapp.data.ProductContract.ProductEntry;
 
-public class CatalogActivity extends AppCompatActivity {
+public class CatalogActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+
+    private static final int PRODUCT_LOADER = 0;
+
+    ProductCursorAdapter mCursorAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,46 +44,14 @@ public class CatalogActivity extends AppCompatActivity {
         // Find and set empty view on the ListView, so that it only shows when the list has 0 items.
         View emptyView = findViewById(R.id.empty_view);
         productListView.setEmptyView(emptyView);
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        displayDatabaseInfo();
-    }
+        // Setup an Adapter to create a list item for each row of pet data in the Cursor.
+        // There is no shoes data yet, so pass in null for the Cursor.
+        mCursorAdapter = new ProductCursorAdapter(this, null);
+        productListView.setAdapter(mCursorAdapter);
 
-    /**
-     * Temporary helper method to display information in the onscreen TextView about the state of
-     * the pets database.
-     */
-    private void displayDatabaseInfo() {
-        // Define a projection that specifies which columns from the database
-        // you will actually use after this query.
-        String[] projection = {
-                ProductEntry._ID,
-                ProductEntry.COLUMN_SHOES_BRAND,
-                ProductEntry.COLUMN_SHOES_TYPE,
-                ProductEntry.COLUMN_SHOES_PRICE,
-                ProductEntry.COLUMN_SHOES_QUANTITY,
-                ProductEntry.COLUMN_SHOES_SUPPLIER_NAME,
-                ProductEntry.COLUMN_SHOES_SUPPLIER_PHONE_NUMBER
-        };
-
-        // Perform a query on the provider using the ContentResolver.
-        Cursor cursor = getContentResolver().query(
-                ProductEntry.CONTENT_URI,
-                projection,
-                null,
-                null,
-                null);
-
-        ListView productListView = findViewById(R.id.list);
-
-        // Setup an Adapter to create a list item for each row of product data in the Cursor.
-        ProductCursorAdapter adapter = new ProductCursorAdapter(this, cursor);
-
-        // Attach the adapter to the ListView.
-        productListView.setAdapter(adapter);
+        // Kick off the loader.
+        getLoaderManager().initLoader(PRODUCT_LOADER, null, this);
     }
 
     /**
@@ -108,12 +83,40 @@ public class CatalogActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_insert_dummy_data:
                 insertShoes();
-                displayDatabaseInfo();
                 return true;
             case R.id.action_delete_all_entries:
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        // Define a projection that specifies the columns from the table we care about.
+        String[] projection = {
+                ProductEntry._ID,
+                ProductEntry.COLUMN_SHOES_BRAND,
+                ProductEntry.COLUMN_SHOES_TYPE };
+
+        // This loader will execute the ContentProvider's query method on a background thread.
+        return new CursorLoader(this,
+                ProductEntry.CONTENT_URI,
+                projection,
+                null,
+                null,
+                null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        // Update {@link ProductCursorAdapter} with this new cursor containing updated product data.
+        mCursorAdapter.swapCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        // Callback called when the data needs to be deleted.
+        mCursorAdapter.swapCursor(null);
     }
 }

@@ -190,7 +190,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 TextUtils.isEmpty(supplierNameString) && TextUtils.isEmpty(supplierPhoneString)) {
             // Since no fields were modified, we can return early without creating a new product.
             // No need to create ContentValues and to do any ContentProvider operations.
-
             return;
         }
 
@@ -207,9 +206,10 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             price = Integer.parseInt(priceString);
         }
 
-        int quantity = 0;
-        if (!TextUtils.isEmpty(quantityString)) {
-            quantity = Integer.parseInt(quantityString);
+        if (TextUtils.isEmpty(quantityString)) {
+            Toast.makeText(this, R.string.valid_product_quantity,
+                    Toast.LENGTH_SHORT).show();
+            return;
         }
 
         int phone = 0;
@@ -218,7 +218,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         }
 
         values.put(ProductEntry.COLUMN_SHOES_PRICE, price);
-        values.put(ProductEntry.COLUMN_SHOES_QUANTITY, quantity);
+        values.put(ProductEntry.COLUMN_SHOES_QUANTITY, quantityString);
         values.put(ProductEntry.COLUMN_SHOES_SUPPLIER_PHONE_NUMBER, phone);
 
         // Determine if this is a new or existing product by checking if mCurrentPetUri is null or not.
@@ -247,6 +247,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                         Toast.LENGTH_SHORT).show();
             }
         }
+
+        finish();
     }
 
     @Override
@@ -277,7 +279,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         switch (item.getItemId()) {
             case R.id.action_save:
                 saveProduct();
-                finish();
                 return true;
             case R.id.action_delete:
                 showDeleteConfirmationDialog();

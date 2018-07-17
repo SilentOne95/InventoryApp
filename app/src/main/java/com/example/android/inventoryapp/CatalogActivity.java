@@ -3,7 +3,6 @@ package com.example.android.inventoryapp;
 import android.app.LoaderManager;
 import android.content.ContentUris;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
@@ -17,10 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.android.inventoryapp.data.ProductContract.ProductEntry;
 

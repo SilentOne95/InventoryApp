@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="@dimen/common_margin_and_padding"
+    android:descendantFocusability="blocksDescendants"
     tools:context=".EditorActivity">
 
     <!-- Overview container - contains fields: Product Name and Type -->
@@ -141,6 +142,104 @@
                 style="@style/EditTextFieldStyle"/>
 
         </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Divider line -->
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="@color/black"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"/>
+
+    <!-- Additional actions -->
+    <TextView
+        android:id="@+id/additional_actions_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/additional_actions_text"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="@dimen/common_margin_and_padding" />
+
+    <LinearLayout
+        android:id="@+id/change_quantity_action"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/common_margin_and_padding">
+
+        <TextView
+            android:id="@+id/change_quantity_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/change_quantity_text"
+            android:textColor="@color/black"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/common_margin_and_padding"/>
+
+        <Button
+            android:id="@+id/decrement_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="@dimen/common_margin_and_padding"
+            android:layout_marginStart="@dimen/common_margin_and_padding"
+            android:background="@color/black"
+            android:text="@string/decrement"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/one_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/or_text"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="@color/black" />
+
+        <Button
+            android:id="@+id/increment_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="@dimen/common_margin_and_padding"
+            android:layout_marginStart="@dimen/common_margin_and_padding"
+            android:background="@color/black"
+            android:text="@string/increment"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/call_supplier_action"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/common_margin_and_padding">
+
+        <TextView
+            android:id="@+id/call_supplier_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/call_supplier_text"
+            android:textColor="@color/black"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/common_margin_and_padding"/>
+
+        <Button
+            android:id="@+id/call_button"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginEnd="@dimen/common_margin_and_padding"
+            android:layout_marginStart="@dimen/common_margin_and_padding"
+            android:background="@color/black"
+            android:text="@string/call_text"
+            android:textColor="@color/white"
+            android:layout_marginLeft="50dp"/>
 
     </LinearLayout>
 

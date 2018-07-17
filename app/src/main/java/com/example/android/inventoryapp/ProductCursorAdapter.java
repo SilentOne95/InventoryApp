@@ -2,7 +2,6 @@ package com.example.android.inventoryapp;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,26 +52,25 @@ public class ProductCursorAdapter extends CursorAdapter {
      *                correct row.
      */
     @Override
-    public void bindView(View view, Context context, Cursor cursor) {
+    public void bindView(View view, final Context context, Cursor cursor) {
         // Find individual views that we want to modify on the list item layout.
         TextView brandTextView = view.findViewById(R.id.brand_name);
-        TextView typeTextView = view.findViewById(R.id.type);
+        TextView priceTextView = view.findViewById(R.id.price);
+        final TextView quantityTextView = view.findViewById(R.id.quantity);
 
         // Find the columns of product attributes that we are interested in.
         int brandColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_SHOES_BRAND);
-        int typeColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_SHOES_TYPE);
+        int priceColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_SHOES_PRICE);
+        int quantityColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_SHOES_QUANTITY);
 
         // Read the product attributes from the Cursor for the current product.
-        String shoesBrand = cursor.getString(brandColumnIndex);
-        String shoesType = cursor.getString(typeColumnIndex);
-
-        // If the product type is empty string or null, then use some default text.
-        if (TextUtils.isEmpty(shoesType)) {
-            shoesType = context.getString(R.string.unknown_type);
-        }
+        final String shoesBrand = cursor.getString(brandColumnIndex);
+        String shoesPrice = cursor.getString(priceColumnIndex);
+        String shoesQuantity = cursor.getString(quantityColumnIndex);
 
         // Update the TextViews with the attributes for the current product.
         brandTextView.setText(shoesBrand);
-        typeTextView.setText(shoesType);
+        priceTextView.setText(shoesPrice);
+        quantityTextView.setText(shoesQuantity);
     }
 }

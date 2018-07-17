@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -40,6 +41,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     private EditText mQuantityEditText;
     private EditText mSupplierNameEditText;
     private EditText mSupplierPhoneEditText;
+
+    private int mQuantity;
 
     /** Boolean flag that keeps track of whether the product has been edited (true) or not (false) */
     private boolean mProductHasChanged = false;
@@ -97,6 +100,64 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mSupplierNameEditText.setOnTouchListener(mTouchListener);
         mSupplierPhoneEditText.setOnTouchListener(mTouchListener);
 
+        // TODO:
+        // Decrement button so user can change the quantity.
+        final Button decrementButton = findViewById(R.id.decrement_button);
+        decrementButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                decrementQuantity(view);
+                displayQuantity();
+                saveProduct();
+            }
+        });
+
+        // Increment button so user can change the quantity.
+        final Button incrementButton = findViewById(R.id.increment_button);
+        incrementButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mQuantity++;
+                displayQuantity();
+                saveProduct();
+            }
+        });
+
+        // Button so user can call supplier.
+        final Button callButton = findViewById(R.id.call_button);
+        callButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callSupplier();
+            }
+        });
+    }
+
+    public void decrementQuantity(View view) {
+        if (mQuantity == 0) {
+            Toast.makeText(this, getString(R.string.editor_decrement_product),
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            mQuantity--;
+            displayQuantity();
+        }
+    }
+
+    public void displayQuantity() {
+        mQuantityEditText.setText(String.valueOf(mQuantity));
+    }
+
+    public int getQuantity() {
+        return mQuantity;
+    }
+
+    public void callSupplier() {
+        String phoneNumber = mSupplierPhoneEditText.getText().toString().trim();
+
+        Intent callIntent = new Intent(Intent.ACTION_DIAL);
+        callIntent.setData(Uri.parse("tel:" + phoneNumber));
+
+        startActivity(callIntent);
     }
 
     /**

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">InventoryApp</string>
 
-    <!-- activity_catalog -->
+    <!-- catalog activity -->
     <string name="action_insert_dummy_data">Insert Dummy Data</string>
     <string name="action_delete_all_entries">Delete All Shoes</string>
 
@@ -10,7 +10,7 @@
 
     <string name="unknown_type">Unknown type</string>
 
-    <!-- activity_editor -->
+    <!-- editor activity -->
     <string name="editor_activity_title_new_product">Add a Product</string>
     <string name="editor_activity_title_edit_product">Edit Product</string>
     <string name="action_save">Save</string>
@@ -45,4 +45,18 @@
     <string name="delete_dialog_msg">Delete this product?</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
+
+    <string name="editor_decrement_product">Call supplier, no items left!</string>
+
+    <string name="additional_actions_text">Additional actions</string>
+    <string name="change_quantity_text">Change quantity</string>
+    <string name="or_text">or</string>
+    <string name="increment">+1</string>
+    <string name="decrement">-1</string>
+    <string name="call_supplier_text">Call supplier</string>
+    <string name="call_text">Call</string>
+
+    <!-- list_item activity -->
+    <string name="sale_text">Sale</string>
+
 </resources>

@@ -3,6 +3,7 @@ package com.example.android.inventoryapp;
 import android.app.LoaderManager;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
@@ -16,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.android.inventoryapp.data.ProductContract.ProductEntry;
@@ -123,7 +125,8 @@ public class CatalogActivity extends AppCompatActivity implements
         String[] projection = {
                 ProductEntry._ID,
                 ProductEntry.COLUMN_SHOES_BRAND,
-                ProductEntry.COLUMN_SHOES_TYPE };
+                ProductEntry.COLUMN_SHOES_PRICE,
+                ProductEntry.COLUMN_SHOES_QUANTITY };
 
         // This loader will execute the ContentProvider's query method on a background thread.
         return new CursorLoader(this,

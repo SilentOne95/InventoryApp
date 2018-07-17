@@ -42,8 +42,14 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     private EditText mSupplierNameEditText;
     private EditText mSupplierPhoneEditText;
 
+    private Button mIncrementButton;
+    private Button mDecrementButton;
+
     /** Boolean flag that keeps track of whether the product has been edited (true) or not (false) */
     private boolean mProductHasChanged = false;
+
+    /** Helper field that help with displaying quantity. */
+    private int mHelperQuantity;
 
     /**
      * OnTouchListener that listens for any user touches on a View, implying that they are
@@ -87,6 +93,9 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mSupplierNameEditText = findViewById(R.id.edit_product_supplier_name);
         mSupplierPhoneEditText = findViewById(R.id.edit_product_supplier_phone_number);
 
+        mIncrementButton = findViewById(R.id.increment_button);
+        mDecrementButton = findViewById(R.id.decrement_button);
+
         // Setup OnTouchListeners on all the input fields, so we can determine if the user has
         // touched or modified them. This will let us know if there are unsaved changes
         // or not, if the user tries to leave the editor without saving.
@@ -97,6 +106,68 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mQuantityEditText.setOnTouchListener(mTouchListener);
         mSupplierNameEditText.setOnTouchListener(mTouchListener);
         mSupplierPhoneEditText.setOnTouchListener(mTouchListener);
+
+        // Listener for button to call supplier.
+        final Button callButton = findViewById(R.id.call_button);
+        callButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callSupplier();
+            }
+        });
+
+        // Listener for increment quantity button.
+        mIncrementButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mHelperQuantity++;
+                displayQuantity();
+            }
+        });
+        mIncrementButton.setOnTouchListener(mTouchListener);
+
+        // Listener for decrement quantity button.
+        mDecrementButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mHelperQuantity--;
+                if (mHelperQuantity < 0) {
+                    mHelperQuantity = 0;
+                    displayQuantity();
+                    displayQuantityWarning();
+                } else if (mHelperQuantity == 0) {
+                    displayQuantity();
+                    displayQuantityWarning();
+                } else {
+                    displayQuantity();
+                }
+            }
+        });
+        mDecrementButton.setOnTouchListener(mTouchListener);
+    }
+
+    /**
+     * Helper methods for displaying products quantity.
+     */
+    public void displayQuantity() {
+        mQuantityEditText.setText(String.valueOf(mHelperQuantity));
+    }
+
+    public void displayQuantityWarning() {
+        Toast.makeText(this, getText(R.string.editor_decrement_product),
+                Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Method opens phone app with a phone number, so user can decide if want to call or not.
+     */
+    public void callSupplier() {
+        String phoneNumber = mSupplierPhoneEditText.getText().toString().trim();
+
+        Intent callIntent = new Intent(Intent.ACTION_DIAL);
+        callIntent.setData(Uri.parse("tel:" + phoneNumber));
+
+        startActivity(callIntent);
     }
 
     /**
@@ -313,6 +384,10 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             mQuantityEditText.setText(Integer.toString(quantity));
             mSupplierNameEditText.setText(supplierName);
             mSupplierPhoneEditText.setText(Integer.toString(supplierPhone));
+
+            // Setting actual number of quantity and assign it to the helper field.
+            String helper = mQuantityEditText.getText().toString().trim();
+            mHelperQuantity = Integer.parseInt(helper);
         }
     }
 

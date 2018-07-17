@@ -1,12 +1,16 @@
 package com.example.android.inventoryapp;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.inventoryapp.data.ProductContract.ProductEntry;
 
@@ -16,6 +20,8 @@ import com.example.android.inventoryapp.data.ProductContract.ProductEntry;
  * how to create list items for each row of shoes data in the {@link Cursor}.
  */
 public class ProductCursorAdapter extends CursorAdapter {
+
+    private int test;
 
     /**
      * Constructs a new {@link ProductCursorAdapter}.
@@ -58,15 +64,46 @@ public class ProductCursorAdapter extends CursorAdapter {
         TextView priceTextView = view.findViewById(R.id.price);
         final TextView quantityTextView = view.findViewById(R.id.quantity);
 
+        Button saleButton = view.findViewById(R.id.sale_button);
+
         // Find the columns of product attributes that we are interested in.
+        int idColumnIndex = cursor.getColumnIndex(ProductEntry._ID);
         int brandColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_SHOES_BRAND);
         int priceColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_SHOES_PRICE);
         int quantityColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_SHOES_QUANTITY);
 
         // Read the product attributes from the Cursor for the current product.
+        final String shoesId = cursor.getString(idColumnIndex);
         final String shoesBrand = cursor.getString(brandColumnIndex);
         String shoesPrice = cursor.getString(priceColumnIndex);
         String shoesQuantity = cursor.getString(quantityColumnIndex);
+
+        final int quantity = Integer.parseInt(shoesQuantity);
+
+        // TODO:
+        saleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (test >= 1) {
+                    Uri mCurrentProductUri = Uri.withAppendedPath(ProductEntry.CONTENT_URI, shoesId);
+                    ContentValues values = new ContentValues();
+                    values.put(ProductEntry.COLUMN_SHOES_QUANTITY, quantity - 1);
+
+                    int rowsAffected = context.getContentResolver().update(
+                            mCurrentProductUri, values, null, null);
+
+                    if (rowsAffected == 0) {
+                        Toast.makeText(context,
+                                context.getApplicationContext().getResources().getString(R.string.editor_update_product_failed),
+                                Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context,
+                                context.getApplicationContext().getResources().getString(R.string.editor_update_product_successful),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
 
         // Update the TextViews with the attributes for the current product.
         brandTextView.setText(shoesBrand);

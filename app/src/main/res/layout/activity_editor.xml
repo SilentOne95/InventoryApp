@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="@dimen/common_margin_and_padding"
-    android:descendantFocusability="blocksDescendants"
     tools:context=".EditorActivity">
 
     <!-- Overview container - contains fields: Product Name and Type -->

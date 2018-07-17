@@ -57,6 +57,6 @@
     <string name="call_text">Call</string>
 
     <!-- list_item activity -->
-    <string name="sale_text">Sale</string>
+    <string name="sell_text">Sell</string>
 
 </resources>

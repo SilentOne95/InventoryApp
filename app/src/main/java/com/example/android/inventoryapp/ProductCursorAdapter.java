@@ -67,40 +67,43 @@ public class ProductCursorAdapter extends CursorAdapter {
         Button saleButton = view.findViewById(R.id.sale_button);
 
         // Find the columns of product attributes that we are interested in.
-        int idColumnIndex = cursor.getColumnIndex(ProductEntry._ID);
         int brandColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_SHOES_BRAND);
         int priceColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_SHOES_PRICE);
         int quantityColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_SHOES_QUANTITY);
 
         // Read the product attributes from the Cursor for the current product.
-        final String shoesId = cursor.getString(idColumnIndex);
         final String shoesBrand = cursor.getString(brandColumnIndex);
         String shoesPrice = cursor.getString(priceColumnIndex);
         String shoesQuantity = cursor.getString(quantityColumnIndex);
 
-        final int quantity = Integer.parseInt(shoesQuantity);
+        final int quantity = cursor.getInt(quantityColumnIndex);
+        final String id = cursor.getString(cursor.getColumnIndex(ProductEntry._ID));
 
         // TODO:
         saleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (test >= 1) {
-                    Uri mCurrentProductUri = Uri.withAppendedPath(ProductEntry.CONTENT_URI, shoesId);
-                    ContentValues values = new ContentValues();
+                Uri mCurrentProductUri = Uri.withAppendedPath(ProductEntry.CONTENT_URI, id);
+                ContentValues values = new ContentValues();
+
+                if (quantity > 1) {
+                    values.put(ProductEntry.COLUMN_SHOES_QUANTITY, quantity - 1);
+
+                    int rowsAffected = context.getContentResolver().update(
+                            mCurrentProductUri, values, null, null);
+                } else if (quantity == 1) {
                     values.put(ProductEntry.COLUMN_SHOES_QUANTITY, quantity - 1);
 
                     int rowsAffected = context.getContentResolver().update(
                             mCurrentProductUri, values, null, null);
 
-                    if (rowsAffected == 0) {
-                        Toast.makeText(context,
-                                context.getApplicationContext().getResources().getString(R.string.editor_update_product_failed),
-                                Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(context,
-                                context.getApplicationContext().getResources().getString(R.string.editor_update_product_successful),
-                                Toast.LENGTH_SHORT).show();
-                    }
+                    Toast.makeText(context,
+                            context.getApplicationContext().getResources().getString(R.string.editor_decrement_product),
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context,
+                            context.getApplicationContext().getResources().getString(R.string.editor_decrement_product),
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         });

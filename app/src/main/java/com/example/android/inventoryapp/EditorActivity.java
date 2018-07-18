@@ -167,7 +167,9 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         Intent callIntent = new Intent(Intent.ACTION_DIAL);
         callIntent.setData(Uri.parse("tel:" + phoneNumber));
 
-        startActivity(callIntent);
+        if (callIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(callIntent);
+        }
     }
 
     /**
@@ -193,17 +195,23 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             return;
         }
 
-        // Create a ContentValues object.
-        ContentValues values = new ContentValues();
-        values.put(ProductEntry.COLUMN_SHOES_BRAND, brandString);
-        values.put(ProductEntry.COLUMN_SHOES_TYPE, typeString);
-        values.put(ProductEntry.COLUMN_SHOES_SUPPLIER_NAME, supplierNameString);
+        // If any field is null, pop up the toast message for the user to provide the data.
+        if (TextUtils.isEmpty(brandString)) {
+            Toast.makeText(this, R.string.valid_product_brand,
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        // If the price / quantity / phone number is not provided by the user, don't try to parse
-        // the string into an integer value. Use provided here provided numbers by default.
-        int price = 0;
-        if (!TextUtils.isEmpty(priceString)) {
-            price = Integer.parseInt(priceString);
+        if (TextUtils.isEmpty(typeString)) {
+            Toast.makeText(this, R.string.valid_product_type,
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (TextUtils.isEmpty(priceString)) {
+            Toast.makeText(this, R.string.valid_product_price,
+                    Toast.LENGTH_SHORT).show();
+            return;
         }
 
         if (TextUtils.isEmpty(quantityString)) {
@@ -212,14 +220,26 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             return;
         }
 
-        int phone = 0;
-        if (!TextUtils.isEmpty(supplierPhoneString)) {
-            phone = Integer.parseInt(supplierPhoneString);
+        if (TextUtils.isEmpty(supplierNameString)) {
+            Toast.makeText(this, R.string.valid_product_supplier_info,
+                    Toast.LENGTH_SHORT).show();
+            return;
         }
 
-        values.put(ProductEntry.COLUMN_SHOES_PRICE, price);
+        if (TextUtils.isEmpty(supplierPhoneString)) {
+            Toast.makeText(this, R.string.valid_product_supplier_info,
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Create a ContentValues object.
+        ContentValues values = new ContentValues();
+        values.put(ProductEntry.COLUMN_SHOES_BRAND, brandString);
+        values.put(ProductEntry.COLUMN_SHOES_TYPE, typeString);
+        values.put(ProductEntry.COLUMN_SHOES_PRICE, priceString);
         values.put(ProductEntry.COLUMN_SHOES_QUANTITY, quantityString);
-        values.put(ProductEntry.COLUMN_SHOES_SUPPLIER_PHONE_NUMBER, phone);
+        values.put(ProductEntry.COLUMN_SHOES_SUPPLIER_NAME, supplierNameString);
+        values.put(ProductEntry.COLUMN_SHOES_SUPPLIER_PHONE_NUMBER, supplierPhoneString);
 
         // Determine if this is a new or existing product by checking if mCurrentPetUri is null or not.
         if (mCurrentProductUri == null) {

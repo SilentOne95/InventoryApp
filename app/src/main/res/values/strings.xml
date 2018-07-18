@@ -39,7 +39,12 @@
     <string name="unsaved_changes_dialog_msg">Error with updating product</string>
     <string name="discard">Discard</string>
     <string name="keep_editing">Keep editing</string>
+
+    <string name="valid_product_brand">Oops, you forgot about brand</string>
+    <string name="valid_product_type">Oops, you forgot about type</string>
+    <string name="valid_product_price">Oops, you forgot about price</string>
     <string name="valid_product_quantity">Oops, you forgot about quantity</string>
+    <string name="valid_product_supplier_info">Oops, you forgot about supplier infos</string>
 
     <string name="editor_delete_product_successful">Product deleted</string>
     <string name="editor_delete_product_failed">Error with deleting product</string>

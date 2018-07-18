@@ -41,7 +41,7 @@ public final class ProductContract {
          * Unique ID number for the shoes.
          * Type: INTEGER
          */
-        public final static String _ID = BaseColumns._ID;
+//        public final static String _ID = BaseColumns._ID;
 
         /**
          * Name of the shoes.

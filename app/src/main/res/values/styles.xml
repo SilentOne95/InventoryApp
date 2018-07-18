@@ -105,11 +105,11 @@
         <item name="android:padding">@dimen/eight_margin_and_padding</item>
     </style>
 
-    <style name="ListItemMainTextView">
+    <style name="ListItemMainTextView" parent="ListItemTextView">
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
-    <style name="ListItemValueTextView">
+    <style name="ListItemValueTextView" parent="ListItemTextView">
         <item name="android:textColor">@color/colorPrimaryDark</item>
     </style>
 

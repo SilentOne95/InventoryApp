@@ -200,33 +200,23 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             Toast.makeText(this, R.string.valid_product_brand,
                     Toast.LENGTH_SHORT).show();
             return;
-        }
-
-        if (TextUtils.isEmpty(typeString)) {
+        } else if (TextUtils.isEmpty(typeString)) {
             Toast.makeText(this, R.string.valid_product_type,
                     Toast.LENGTH_SHORT).show();
             return;
-        }
-
-        if (TextUtils.isEmpty(priceString)) {
+        } else if (TextUtils.isEmpty(priceString)) {
             Toast.makeText(this, R.string.valid_product_price,
                     Toast.LENGTH_SHORT).show();
             return;
-        }
-
-        if (TextUtils.isEmpty(quantityString)) {
+        } else if (TextUtils.isEmpty(quantityString)) {
             Toast.makeText(this, R.string.valid_product_quantity,
                     Toast.LENGTH_SHORT).show();
             return;
-        }
-
-        if (TextUtils.isEmpty(supplierNameString)) {
+        } else if (TextUtils.isEmpty(supplierNameString)) {
             Toast.makeText(this, R.string.valid_product_supplier_info,
                     Toast.LENGTH_SHORT).show();
             return;
-        }
-
-        if (TextUtils.isEmpty(supplierPhoneString)) {
+        } else if (TextUtils.isEmpty(supplierPhoneString)) {
             Toast.makeText(this, R.string.valid_product_supplier_info,
                     Toast.LENGTH_SHORT).show();
             return;

@@ -15,12 +15,7 @@
 
         <TextView
             android:id="@+id/brand_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="@color/colorPrimary"
-            android:padding="8dp"/>
+            style="@style/ListItemMainTextView"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -29,22 +24,12 @@
 
             <TextView
                 android:id="@+id/price_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Price:"
-                android:fontFamily="sans-serif-medium"
-                android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="@color/colorPrimary"
-                android:padding="8dp"/>
+                android:text="@string/price_text"
+                style="@style/ListItemMainTextView"/>
 
             <TextView
                 android:id="@+id/price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
-                android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="@color/colorPrimaryDark"
-                android:padding="8dp"/>
+                style="@style/ListItemValueTextView"/>
 
         </LinearLayout>
 
@@ -55,22 +40,12 @@
 
             <TextView
                 android:id="@+id/quantity_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Quantity:"
-                android:fontFamily="sans-serif-medium"
-                android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="@color/colorPrimary"
-                android:padding="8dp"/>
+                android:text="@string/quantity_text"
+                style="@style/ListItemMainTextView"/>
 
             <TextView
                 android:id="@+id/quantity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
-                android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="@color/colorPrimaryDark"
-                android:padding="8dp"/>
+                style="@style/ListItemValueTextView"/>
 
         </LinearLayout>
 
@@ -78,14 +53,7 @@
 
     <Button
         android:id="@+id/sale_button"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginEnd="@dimen/common_margin_and_padding"
-        android:layout_marginStart="@dimen/common_margin_and_padding"
-        android:background="@color/black"
         android:text="@string/sell_text"
-        android:textColor="@color/white"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="50dp"/>
+        style="@style/SellButton"/>
 
 </LinearLayout>

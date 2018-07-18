@@ -64,5 +64,7 @@
 
     <!-- list_item activity -->
     <string name="sell_text">Sell</string>
+    <string name="price_text">Price:</string>
+    <string name="quantity_text">Quantity:</string>
 
 </resources>

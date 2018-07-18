@@ -2,9 +2,13 @@
 <resources>
     <!-- General -->
     <dimen name="common_margin_and_padding">16dp</dimen>
+    <dimen name="eight_margin_and_padding">8dp</dimen>
     <dimen name="zero">0dp</dimen>
 
     <!-- activity_editor -->
     <dimen name="padding_start">4dp</dimen>
+    <dimen name="horizontal_line_height">2dp</dimen>
+    <dimen name="button_size">40dp</dimen>
+    <dimen name="call_button_margin_left">50dp</dimen>
 
 </resources>
